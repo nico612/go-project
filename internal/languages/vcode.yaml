@@ -1,0 +1,15 @@
+VCodeInvalid:
+  en: "Verification code error"
+  zh-Hans: "验证码错误"
+VCodeBlocked:
+  en: "Request the verification code too frequently"
+  zh-Hans: "验证码获取太频繁"
+VCodeSMS:
+  en: "[Telecode] Your verification code: ${code}, is valid within 5 minutes. Please ignore this message if it was not done by yourself"
+  zh-Hans: "【Telecode】您的验证码：${code}，5分钟内有效，如非本人操作，请忽略本短信。"
+VCodeEmail:
+  en: "[Telecode] Your verification code: ${code}, is valid within 5 minutes. Please ignore this email if it was not done by yourself."
+  zh-Hans: "【Telecode】您的验证码：${code}，5分钟内有效，如非本人操作，请忽略本邮件。"
+VCodeEmailTitle:
+  en: "Email verification"
+  zh-Hans: "邮件验证码"

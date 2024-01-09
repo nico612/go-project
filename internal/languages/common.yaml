@@ -1,0 +1,12 @@
+
+ServerErr:
+  en: "Internal error of server: ${err}"
+  zh-Hans: "服务器内部错误，错误：${err}"
+
+InvalidArgument:
+  en: "Parameter error"
+  zh-Hans: "参数错误"
+
+PermissionDenied:
+  en: "Permission Denied"
+  zh-Hans: "没有操作权限"
