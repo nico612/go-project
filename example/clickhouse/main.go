@@ -2,6 +2,8 @@ package main
 
 import (
 	"context"
+	"database/sql"
+	"errors"
 	"fmt"
 	"github.com/ClickHouse/clickhouse-go/v2"
 	"github.com/nico612/go-project/example/clickhouse/db"
@@ -56,6 +58,19 @@ func main() {
 		return
 	}
 	fmt.Println(users)
+
+	user, err := queryUserWithUserName(conn, ctx, "zhangsan")
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			fmt.Println("not found")
+		} else {
+			fmt.Println(err)
+			return
+		}
+
+	}
+
+	fmt.Println(user)
 }
 
 func insert(conn clickhouse.Conn, ctx context.Context, user *User) error {
@@ -68,6 +83,14 @@ func insert(conn clickhouse.Conn, ctx context.Context, user *User) error {
 
 func queryUser(conn clickhouse.Conn, ctx context.Context) ([]User, error) {
 	var users []User
-	err := conn.Select(ctx, &users, "SELECT id, username, password, created_at, updated_at, period FROM test.user")
+	err := conn.Select(ctx, &users, "SELECT * FROM user")
 	return users, err
+}
+
+func queryUserWithUserName(conn clickhouse.Conn, ctx context.Context, username string) (*User, error) {
+	var user User
+	err := conn.QueryRow(ctx, "SELECT * FROM test.user WHERE username = ?", username).ScanStruct(&user)
+
+	return &user, err
+
 }

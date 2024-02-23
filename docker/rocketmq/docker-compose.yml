@@ -1,0 +1,45 @@
+
+# RocketMQ compose file
+
+version: "3.8"
+
+services:
+  namesrv:
+    image: rocketmqinc/rocketmq
+    container_name: namesrv
+    ports:
+      - "9876:9876"
+#    environment:
+#      - "JAVA_OPTS=-Duser.home=/opt"
+    command: sh mqnamesrv
+    restart: always
+
+  broker:
+    image: rocketmqinc/rocketmq
+    container_name: broker
+    ports:
+      - "10909:10909"
+      - "10911:10911"
+    environment:
+      - "NAMESRV_ADDR=namesrv:9876"
+      - "JAVA_OPTS=-Duser.home=/opt"
+      - "JAVA_OPT_EXT=-server -Xms256m -Xmx256m -Xmn256m"
+    volumes:
+      - ./conf/broker.conf:/opt/rocketmq-4.4.0/conf/broker.conf
+    command: sh mqbroker -c /opt/rocketmq-4.4.0/conf/broker.conf
+    restart: always
+    depends_on:
+      - namesrv
+
+  console:
+    image: styletang/rocketmq-console-ng
+    container_name: rocketmq-console
+    ports:
+      - "8080:8080"
+    environment:
+      - "JAVA_OPTS=-Drocketmq.namesrv.addr=namesrv:9876"
+      - Dcom.rocketmq.sendMessageWithVIPChannel=false  # 禁用VIP通道发送消息，所有发送消息走普通通道
+    restart: always
+    depends_on:
+        - namesrv
+
