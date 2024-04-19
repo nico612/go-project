@@ -104,3 +104,8 @@ func (r *Repo) DeleteUserWithLanguage(id int) error {
 func (r *Repo) DeleteUserAndLanguage2(user *User) error {
 	return r.db.Select("Languages").Delete(user).Error
 }
+
+// delete language
+func (r *Repo) DeleteLanguage(id int) error {
+	return r.db.Delete(&Language{}, id).Error
+}
